@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>공지 리스트</title>
+    <link rel="stylesheet" href="/css/table.css"/>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        // 상세보기
+        function doDetail(seq) {
+            location.href = "/notice/noticeInfo.html?nSeq=" + seq;
+        }
+
+        // HTML로딩이 완료되고, 실행됨
+        $(document).ready(function () {
+
+            // Ajax 호출해서 멜론차트 조회하기
+            $.ajax({
+                url: "http://" + apiServer + "/notice/v1/noticeList",
+                type: "post", // 전송방식은 Post
+                xhrFields: {
+                    withCredentials: true
+                },
+                dataType: "JSON" // 전송 결과는 JSON으로 받기
+            }).then(
+                function (json) { // 성공
+
+                    $("#noticeList").empty(); // 기존 조회 내용 지우기
+
+                    const result = json.data;
+
+                    for (const data of result) {
+                        $("#noticeList").append("<div class=\"divTableRow\">");
+
+                        if (data.noticeYn === "Y") { // 글번호 출력
+                            $("#noticeList").append("<div class=\"divTableCell\">공지사항</div>");
+
+                        } else {
+                            $("#noticeList").append("<div class=\"divTableCell\">" + data.noticeSeq + "</div>");
+
+                        }
+
+                        $("#noticeList").append(
+                            "<div class=\"divTableCell\" onclick='doDetail(" + data.noticeSeq + ")'>"
+                            + data.title + "</div>");
+                        $("#noticeList").append("<div class=\"divTableCell\">" + data.readCnt + "</div>");
+                        $("#noticeList").append("<div class=\"divTableCell\">" + data.userName + "</div>");
+                        $("#noticeList").append("<div class=\"divTableCell\">" + data.regDt + "</div>");
+                        $("#noticeList").append("</div>");
+                    }
+
+                },
+                function () {
+                    alert("접근 권한이 없습니다.");
+                    // location.href = loginPage;
+                }
+            );
+
+        })
+    </script>
+</head>
+<body>
+<h2>공지사항</h2>
+<hr/>
+<br/>
+<div class="divTable minimalistBlack">
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">순번</div>
+            <div class="divTableHead">제목</div>
+            <div class="divTableHead">조회수</div>
+            <div class="divTableHead">등록자</div>
+            <div class="divTableHead">등록일</div>
+        </div>
+    </div>
+    <div class="divTableBody" id="noticeList">
+    </div>
+</div>
+<a href="/notice/noticeReg.html">글쓰기</a>
+</body>
+</html>
