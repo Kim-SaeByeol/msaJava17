@@ -32,15 +32,15 @@ spring:
     open-in-view: 'false'
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    password: 1234
-    username: poly
-    url: jdbc:mariadb://192.168.59.128:3306/myDB
+    password: ${MARIADB_PASSWORD}
+    username: ${MARIADB_USER}
+    url: jdbc:mariadb://${MARIADB_IP}:${MARIADB_PORT}/myDB
   application:
     name: USER-SERVICE
-  boot:
-    admin:
-      client: # Spring Boot Actuator Admin UI Server
-        url: http://localhost:15000
+#  boot:
+#    admin:
+#      client: # Spring Boot Actuator Admin UI Server
+#        url: http://localhost:15000
 jwt:
   token:
     creator: poly
@@ -71,14 +71,14 @@ jwt:
 #   port: ${USER-SERVICE-PORT}
 #api:
 #   gateway: ${API-GATEWAY-IP}:${API-GATEWAY-PORT}
-eureka:
-  client:
-    fetch-registry: 'true'
-    register-with-eureka: 'true'
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka:
+#  client:
+#    fetch-registry: 'true'
+#    register-with-eureka: 'true'
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
 server:
-  port: '11000'
+  port: ${USER_SERVICE_PORT}
 
 api:
-  gateway : localhost:13000
+  gateway : ${API_GATEWAY_IP}:${API_GATEWAY_PORT}

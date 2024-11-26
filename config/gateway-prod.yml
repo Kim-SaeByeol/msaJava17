@@ -16,12 +16,12 @@ management:
   server:
     address: localhost
     port: 13001
-eureka:
-  client:
-    fetch-registry: 'true'
-    register-with-eureka: 'true'
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka:
+#  client:
+#    fetch-registry: 'true'
+#    register-with-eureka: 'true'
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: API-GATEWAY
